@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eintrag bestätigt – JULA 2026 Zelteinteilung</title>
+  <meta name="description" content="Dein Eintrag für die Zelteinteilung JULA 2026 wurde erfolgreich gespeichert." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <svg class="logo-svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="18,2 34,32 2,32" fill="#E30613" stroke="white" stroke-width="1.5"/>
+          <text x="18" y="27" text-anchor="middle" font-size="9" font-family="Inter,sans-serif" font-weight="800" fill="white">CVJM</text>
+        </svg>
+        <div class="header-title">
+          <strong>JULA 2026</strong>
+          <span>Zelteinteilung · CVJM Mössingen</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Inhalt ── -->
+  <main class="page-wrapper">
+    <div class="card fade-in" style="text-align:center">
+      <div class="card-body" style="padding:48px 32px">
+
+        <div class="success-icon">✅</div>
+
+        <h1 style="font-size:1.6rem;font-weight:800;margin-bottom:8px">Eintrag gespeichert!</h1>
+        <p class="text-muted" style="margin-bottom:32px">
+          Vielen Dank! Der Wunsch für dein Kind wurde erfolgreich eingetragen.<br>
+          Die Zuteilung erfolgt durch die Lagerleitung.
+        </p>
+
+        <!-- Zusammenfassung -->
+        <div style="text-align:left;max-width:480px;margin:0 auto">
+          <p style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--gray-400);margin-bottom:10px">Deine Angaben</p>
+          <ul class="summary-list" id="summary-list">
+            <!-- Wird per JS befüllt -->
+          </ul>
+        </div>
+
+        <div style="margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a href="index.html" class="btn btn-secondary">
+            ← Zurück zum Formular
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <a href="impressum.html">Impressum</a> &nbsp;·&nbsp; CVJM Mössingen &nbsp;·&nbsp; Soli Deo Gloria
+  </footer>
+
+  <script>
+    // Daten aus URL-Parametern lesen
+    const p = new URLSearchParams(location.search);
+    const list = document.getElementById('summary-list');
+
+    function addItem(label, value) {
+      if (!value) return;
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="sl-label">${label}</span><span>${value}</span>`;
+      list.appendChild(li);
+    }
+
+    addItem('Kind',         `${p.get('vorname') || ''} ${p.get('nachname') || ''}`.trim());
+    addItem('E-Mail Eltern', p.get('email'));
+
+    const w1 = [p.get('w1v'), p.get('w1n')].filter(Boolean).join(' ');
+    const w2 = [p.get('w2v'), p.get('w2n')].filter(Boolean).join(' ');
+    const w3 = [p.get('w3v'), p.get('w3n')].filter(Boolean).join(' ');
+
+    if (w1) addItem('1. Wunsch', w1);
+    if (w2) addItem('2. Wunsch', w2);
+    if (w3) addItem('3. Wunsch', w3);
+
+    if (list.children.length === 0) {
+      list.innerHTML = '<li><span class="text-muted">Keine Daten verfügbar.</span></li>';
+    }
+  </script>
+
+</body>
+</html>

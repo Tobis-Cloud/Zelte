@@ -1,0 +1,15 @@
+# Logs
+*.log
+
+# Firebase-Konfiguration (falls du eine lokale Kopie mit echten Keys hast)
+# firebase-config.local.js
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Node (falls du jemals lokale Tools nutzt)
+node_modules/

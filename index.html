@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zelteinteilung JULA 2026 – CVJM Mössingen</title>
+  <meta name="description" content="Hier können Eltern ihre Wunschzeltpartner für das Jungscharlager JULA 2026 des CVJM Mössingen eintragen." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <!-- CVJM-Dreieck SVG -->
+        <svg class="logo-svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="18,2 34,32 2,32" fill="#E30613" stroke="white" stroke-width="1.5"/>
+          <text x="18" y="27" text-anchor="middle" font-size="9" font-family="Inter,sans-serif" font-weight="800" fill="white">CVJM</text>
+        </svg>
+        <div class="header-title">
+          <strong>JULA 2026</strong>
+          <span>Zelteinteilung · CVJM Mössingen</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="admin.html" class="btn btn-ghost btn-sm">🔒 Admin</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Inhalt ── -->
+  <main class="page-wrapper">
+
+    <!-- Fehler-Alert -->
+    <div id="alert-error" class="alert alert-error" role="alert">
+      <span class="alert-icon">⚠️</span>
+      <span class="alert-msg"></span>
+    </div>
+
+    <div class="card fade-in">
+      <div class="card-header">
+        <h1>🏕 Zelteinteilung Jungs</h1>
+        <p>Trage hier die Wunschzeltpartner deines Kindes ein. Du kannst bis zu 3 Wünsche angeben.</p>
+      </div>
+      <div class="card-body">
+
+        <form id="anmelde-form" novalidate>
+
+          <!-- Kind -->
+          <p class="form-section-label">Dein Kind</p>
+
+          <div class="form-group">
+            <label for="email">E-Mail der Eltern <span class="required">*</span></label>
+            <input type="email" id="email" name="email" placeholder="eltern@beispiel.de" autocomplete="email" required />
+            <div id="email-err" class="field-error"></div>
+            <p class="field-hint">Wir speichern deine E-Mail, damit wir dich bei Fragen kontaktieren können.</p>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="vorname">Vorname Kind <span class="required">*</span></label>
+              <input type="text" id="vorname" name="vorname" placeholder="z.B. Max" autocomplete="given-name" required />
+              <div id="vorname-err" class="field-error"></div>
+            </div>
+            <div class="form-group">
+              <label for="nachname">Nachname Kind <span class="required">*</span></label>
+              <input type="text" id="nachname" name="nachname" placeholder="z.B. Mustermann" autocomplete="family-name" required />
+              <div id="nachname-err" class="field-error"></div>
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <!-- Wunschpartner -->
+          <p class="form-section-label">Wunschzeltpartner (optional)</p>
+
+          <!-- Wunsch 1 -->
+          <div class="wish-block">
+            <div class="wish-block-label">1. Wunsch</div>
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:0">
+                <label for="wunsch1_vorname">Vorname</label>
+                <input type="text" id="wunsch1_vorname" name="wunsch1_vorname" placeholder="z.B. Tim" />
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label for="wunsch1_nachname">Nachname</label>
+                <input type="text" id="wunsch1_nachname" name="wunsch1_nachname" placeholder="z.B. Müller" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Wunsch 2 -->
+          <div class="wish-block">
+            <div class="wish-block-label">2. Wunsch</div>
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:0">
+                <label for="wunsch2_vorname">Vorname</label>
+                <input type="text" id="wunsch2_vorname" name="wunsch2_vorname" placeholder="z.B. Jonas" />
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label for="wunsch2_nachname">Nachname</label>
+                <input type="text" id="wunsch2_nachname" name="wunsch2_nachname" placeholder="z.B. Schmidt" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Wunsch 3 -->
+          <div class="wish-block">
+            <div class="wish-block-label">3. Wunsch</div>
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom:0">
+                <label for="wunsch3_vorname">Vorname</label>
+                <input type="text" id="wunsch3_vorname" name="wunsch3_vorname" placeholder="z.B. Luca" />
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label for="wunsch3_nachname">Nachname</label>
+                <input type="text" id="wunsch3_nachname" name="wunsch3_nachname" placeholder="z.B. Weber" />
+              </div>
+            </div>
+          </div>
+
+          <hr class="divider" />
+
+          <!-- Datenschutz -->
+          <div class="datenschutz-box">
+            🔒 <strong>Datenschutz:</strong> Die eingegebenen Daten werden ausschließlich zur Organisation der Zelteinteilung für das JULA 2026 verwendet und anschließend gelöscht. Es erfolgt keine Weitergabe an Dritte.
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn btn-primary btn-lg">
+            <span class="btn-spinner"></span>
+            <span class="btn-text">✅ Eintragen</span>
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <a href="impressum.html">Impressum</a> &nbsp;·&nbsp; CVJM Mössingen &nbsp;·&nbsp; Soli Deo Gloria
+  </footer>
+
+  <script type="module" src="js/form.js"></script>
+</body>
+</html>

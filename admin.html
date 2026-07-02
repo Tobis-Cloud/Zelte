@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – JULA 2026 Zelteinteilung</title>
+  <meta name="description" content="Admin-Bereich für die Zelteinteilung JULA 2026." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <svg class="logo-svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="18,2 34,32 2,32" fill="#E30613" stroke="white" stroke-width="1.5"/>
+          <text x="18" y="27" text-anchor="middle" font-size="9" font-family="Inter,sans-serif" font-weight="800" fill="white">CVJM</text>
+        </svg>
+        <div class="header-title">
+          <strong>JULA 2026</strong>
+          <span>Admin-Bereich</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="user-label" style="font-size:0.78rem;color:var(--gray-400)"></span>
+        <button id="logout-btn" class="btn btn-ghost btn-sm hidden">Abmelden</button>
+        <a href="index.html" class="btn btn-ghost btn-sm">← Formular</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Inhalt ── -->
+  <main class="page-wrapper--wide">
+
+    <!-- ── LOGIN (nur sichtbar wenn nicht eingeloggt) ── -->
+    <div id="tab-login" class="tab-panel active">
+      <div class="login-card">
+        <div class="card-header" style="text-align:center">
+          <h1 style="font-size:1.3rem">🔒 Admin-Login</h1>
+          <p>Nur für die Lagerleitung</p>
+        </div>
+        <div class="card-body">
+
+          <div id="login-error" class="alert alert-error" role="alert">
+            <span class="alert-icon">⚠️</span>
+            <span class="alert-msg"></span>
+          </div>
+
+          <form id="login-form" novalidate>
+            <div class="form-group">
+              <label for="admin-email">E-Mail</label>
+              <input type="email" id="admin-email" name="email" placeholder="admin@cvjm-moessingen.de" required />
+            </div>
+            <div class="form-group">
+              <label for="admin-password">Passwort</label>
+              <input type="password" id="admin-password" name="password" placeholder="••••••••" required />
+            </div>
+            <button type="submit" id="login-btn" class="btn btn-primary btn-lg">
+              <span class="btn-spinner"></span>
+              <span class="btn-text">Anmelden</span>
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ADMIN TABS (nur sichtbar wenn eingeloggt) ── -->
+    <div id="admin-content" style="display:none">
+
+      <!-- Stats -->
+      <div class="stat-row mb-24">
+        <div class="stat-box">
+          <div class="stat-num" id="stat-eintraege">–</div>
+          <div class="stat-label">Einträge</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="stat-wuensche">–</div>
+          <div class="stat-label">Wünsche</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="stat-zelte">–</div>
+          <div class="stat-label">Zelte</div>
+        </div>
+      </div>
+
+      <!-- Tab-Bar -->
+      <div id="admin-tabs-bar" class="tab-bar">
+        <button class="tab-btn active" data-tab="tab-eintraege" onclick="switchTab('tab-eintraege')">
+          📋 Einträge
+        </button>
+        <button class="tab-btn" data-tab="tab-graph" onclick="switchTab('tab-graph')">
+          🕸 Graph
+        </button>
+        <button class="tab-btn" data-tab="tab-algo" onclick="switchTab('tab-algo')">
+          🏕 Zeltgruppen
+        </button>
+      </div>
+
+      <!-- ── Tab: Einträge ── -->
+      <div id="tab-eintraege" class="tab-panel active">
+        <div class="flex-between flex-wrap gap-8 mb-16">
+          <input type="text" id="suche-input" placeholder="🔍 Suchen..." style="max-width:280px;padding:8px 14px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:0.875rem;outline:none" />
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-success btn-sm" onclick="exportXLSX()">
+              📥 XLSX exportieren
+            </button>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Kind</th>
+                <th>E-Mail Eltern</th>
+                <th>Wunschpartner</th>
+                <th>Eingetragen</th>
+                <th>Aktion</th>
+              </tr>
+            </thead>
+            <tbody id="eintraege-tbody">
+              <tr>
+                <td colspan="5" style="text-align:center;color:var(--gray-400);padding:32px">
+                  Lade Daten…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── Tab: Graph ── -->
+      <div id="tab-graph" class="tab-panel">
+        <div class="flex-between flex-wrap gap-8 mb-16">
+          <div>
+            <strong>Wunsch-Graph</strong>
+            <p class="text-muted text-sm">Rote Kanten = gegenseitige Wünsche. Knoten verschiebbar.</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <div id="graph-legend" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"></div>
+            <button class="btn btn-secondary btn-sm" onclick="exportGraphPNG()">📤 SVG exportieren</button>
+          </div>
+        </div>
+        <div id="graph-container">
+          <svg id="graph-svg"></svg>
+        </div>
+      </div>
+
+      <!-- ── Tab: Zeltgruppen ── -->
+      <div id="tab-algo" class="tab-panel">
+        <div class="card" style="margin-bottom:24px">
+          <div class="card-body" style="padding:20px">
+            <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap">
+              <div>
+                <label for="zelt-groesse" style="font-size:0.825rem;font-weight:600;margin-bottom:6px;display:block">Maximale Zeltgröße</label>
+                <input type="number" id="zelt-groesse" value="6" min="2" max="20"
+                  style="width:100px;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:0.9rem" />
+              </div>
+              <button id="algo-btn" class="btn btn-primary">
+                ⚡ Zeltgruppen berechnen
+              </button>
+              <button class="btn btn-success btn-sm" onclick="exportXLSX()" style="margin-left:auto">
+                📥 XLSX exportieren
+              </button>
+            </div>
+            <p class="field-hint mt-8">Der Algorithmus berücksichtigt Wunschverbindungen und versucht zusammenhängende Gruppen zu bilden.</p>
+          </div>
+        </div>
+
+        <div id="zelt-result">
+          <p class="text-muted text-center" style="padding:40px 0">
+            Klicke auf „Zeltgruppen berechnen" um die Einteilung zu starten.
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <a href="impressum.html">Impressum</a> &nbsp;·&nbsp; CVJM Mössingen &nbsp;·&nbsp; Soli Deo Gloria
+  </footer>
+
+  <script type="module">
+    import './js/admin.js';
+    import './js/graph.js';
+    import './js/algorithm.js';
+    import './js/export.js';
+
+    // Admin-Content anzeigen sobald eingeloggt
+    import { auth } from './js/firebase-config.js';
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    onAuthStateChanged(auth, user => {
+      const adminContent = document.getElementById('admin-content');
+      const loginPanel   = document.getElementById('tab-login');
+      if (user) {
+        if (adminContent) adminContent.style.display = 'block';
+        if (loginPanel)   loginPanel.style.display = 'none';
+      } else {
+        if (adminContent) adminContent.style.display = 'none';
+        if (loginPanel)   loginPanel.style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>
